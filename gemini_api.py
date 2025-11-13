@@ -51,4 +51,4 @@ while True:
     print("AI:", response.text.strip())
 
     # Save this turn to memory
-    conversation_history.append((user_input, response.text.strip()))칟
+    conversation_history.append((user_input, response.text.strip()))
