@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 from google import genai
+from datetime import datetime
 
 # Load .env file
 load_dotenv()
@@ -11,6 +12,9 @@ if not api_key:
 
 # Create client with API key
 client = genai.Client(api_key=api_key)
+
+# Get today's date
+today = datetime.now().strftime("%B %d, %Y")
 
 # List to store conversation history
 conversation_history = []
@@ -26,6 +30,12 @@ while True:
     # Build conversation memory for the prompt
     # Each turn is clearly marked as User/AI
     prompt_lines = []
+    
+    # Add today's date at the start (model knows the date)
+    if not prompt_lines:
+        prompt_lines.append(f"Today's date is {today}.")
+        prompt_lines.append("")
+    
     for q, a in conversation_history:
         prompt_lines.append(f"User: {q}")
         prompt_lines.append(f"AI: {a}")
@@ -41,4 +51,4 @@ while True:
     print("AI:", response.text.strip())
 
     # Save this turn to memory
-    conversation_history.append((user_input, response.text.strip()))
+    conversation_history.append((user_input, response.text.strip()))칟
